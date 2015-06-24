@@ -1,6 +1,7 @@
 #ifndef UTILITY
 #define UTILITY
 #include <QString>
+#include <QStack>
 
 
 const int DEFAULT_MODE = 1;
@@ -12,7 +13,9 @@ const int DELETE_MODE = 5;
   * @param infixexp
   * @return
   */
- void inToPost(QString &infixexp, vector<QString> &postfixexp);
+ bool inToPost(QString &infixexp, vector<QString> &postfixexp);
+
+ bool handleOperator(char oper, QStack<char> & stack , vector<Qstring> & postfixexp);
 
 
 #endif // UTILITY

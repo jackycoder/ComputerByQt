@@ -14,18 +14,45 @@
 * 5）当中序表达式的符号序列全部读入后，若栈内仍有元素，把它们依次弹出并放到后序表达式序列尾部。
 *   若弹出的元素遇到空括号，则说明不匹配，发生错误，并进行相关处理
 **/
-void inToPost(QString &infixexp , vector<QString> &postfixexp)
+bool inToPost(QString &infixexp , vector<QString> &postfixexp)
  {
     if(infixexp.isNull()) return ;
     QString *number = new QString();
-    for (int var = 0; var < infixexp.size(); ++var) {
-        switch infixexp.at(var)
-        {
-            case '(':
-                break;
-            case ')':
-                break;
-            case
+    QStack<char> stack;
+    for(int var = 0; var < infixexp.size(); ++var)
+    {
+        if(infixexp.at(var)>='0' && infixexp.at(var)<='9'){
+            number->append(infixexp.at(var));
+        }else if('(' == infixexp.at(var)) {
+            stack.push_back(infixexp.at(var));
+        }else if (')' == infixexp.at(var)) {
+            if(stack.isEmpty()) return false;
+            char oper;
+            while(!stack.isEmpty()){
+                oper = stack.pop();
+                if(oper != '(')
+                    postfixexp.push_back(oper);
+            }
+        }else if (isoperator(infixexp.at(var))){
+            if(!number->isEmpty()){
+                postfixexp.push(*number);
+                number->clear();
+            }
+            //operator handle
+
+        }else{
+            //Invalid input
+            return false;
         }
     }
+    return true;
  }
+
+
+bool handleOperator(char oper, QStack<char> & stack , vector<Qstring> & postfixexp)
+{
+    while(!stack.isEmpty())
+    {
+
+    }
+}
