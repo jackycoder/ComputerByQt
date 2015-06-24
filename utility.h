@@ -12,7 +12,7 @@ const int DELETE_MODE = 5;
   * @param infixexp
   * @return
   */
- QString & inToPost(QString &infixexp, vector<QString> &postfixexp);
+ void inToPost(QString &infixexp, vector<QString> &postfixexp);
 
 
 #endif // UTILITY
