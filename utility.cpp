@@ -14,11 +14,11 @@
 * 5）当中序表达式的符号序列全部读入后，若栈内仍有元素，把它们依次弹出并放到后序表达式序列尾部。
 *   若弹出的元素遇到空括号，则说明不匹配，发生错误，并进行相关处理
 **/
-bool inToPost(QString &infixexp , vector<QString> &postfixexp)
+bool inToPost(QString &infixexp , QVector<QString> &postfixexp)
  {
-    if(infixexp.isNull()) return ;
+    if(infixexp.isNull()) return false;
     QString *number = new QString();
-    QStack<char> stack;
+    QStack<QChar> stack;
     for(int var = 0; var < infixexp.size(); ++var)
     {
         if(infixexp.at(var)>='0' && infixexp.at(var)<='9'){
@@ -27,7 +27,7 @@ bool inToPost(QString &infixexp , vector<QString> &postfixexp)
             stack.push_back(infixexp.at(var));
         }else if (')' == infixexp.at(var)) {
             if(stack.isEmpty()) return false;
-            char oper;
+            QChar oper;
             while(!stack.isEmpty()){
                 oper = stack.pop();
                 if(oper != '(')
@@ -35,11 +35,11 @@ bool inToPost(QString &infixexp , vector<QString> &postfixexp)
             }
         }else if (isoperator(infixexp.at(var))){
             if(!number->isEmpty()){
-                postfixexp.push(*number);
+                postfixexp.push_back(*number);
                 number->clear();
             }
             //operator handle
-
+            handleOperator(infixexp.at(var),stack,postfixexp);
         }else{
             //Invalid input
             return false;
@@ -49,10 +49,56 @@ bool inToPost(QString &infixexp , vector<QString> &postfixexp)
  }
 
 
-bool handleOperator(char oper, QStack<char> & stack , vector<Qstring> & postfixexp)
+bool handleOperator(QChar oper, QStack<QChar> & stack , QVector<QString> &postfixexp)
 {
+    QChar topElement;
     while(!stack.isEmpty())
     {
-
+        //popElement = stack.pop();
+        topElement=stack.top();
+        if(topElement == '(' || !isHigherPriority(oper , topElement)){
+            postfixexp.push_back(stack.pop());
+        }else{
+            break;
+        }
     }
+    stack.push_back(oper);
+    return true;
 }
+
+
+bool isHigherPriority(const QChar oper1, const QChar oper2)
+{
+    QChar higerOperator[3] = {'*' , '/' , '%'};
+    QChar lowerOperator[2] = {'+' , 'c'};
+    for (int var = 0; var < 3; ++var) {
+        if(oper1 == higerOperator[var]){
+            for (int i = 0; i < 2; ++i) {
+                if(oper2 == lowerOperator[i]){
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+bool isoperator(QChar oper)
+{
+    QChar operatorList[5] = {'+','-','*','/','%'};
+    for (int var = 0; var < 5; ++var) {
+         if(oper == operatorList[var])
+             return true;
+    }
+    return false;
+}
+
+ void printQVector(QVector<QString> & vec)
+ {
+     QVector<QString>::const_iterator it_string = vec.begin();
+     qDebug() << vec.size();
+     while(it_string != vec.end()){
+         qDebug() << *it_string;
+     }
+
+ }

@@ -2,6 +2,8 @@
 #define UTILITY
 #include <QString>
 #include <QStack>
+#include <QVector>
+#include <QDebug>
 
 
 const int DEFAULT_MODE = 1;
@@ -13,9 +15,30 @@ const int DELETE_MODE = 5;
   * @param infixexp
   * @return
   */
- bool inToPost(QString &infixexp, vector<QString> &postfixexp);
+ bool inToPost(QString &infixexp, QVector<QString> &postfixexp);
 
- bool handleOperator(char oper, QStack<char> & stack , vector<Qstring> & postfixexp);
+ /**
+  * @brief handleOperator
+  * @param oper
+  * @param stack
+  * @param postfixexp
+  * @return
+  */
+ bool handleOperator(QChar oper, QStack<QChar> & stack , QVector<QString> & postfixexp);
+
+ /**
+  * @brief isHigherPriority: Only support + - * / %
+  * @param oper1
+  * @param oper2
+  * @return
+  */
+ bool isHigherPriority(const QChar oper1, const QChar oper2);
+
+
+ bool isoperator(QChar oper);
+
+
+ void printQVector(QVector<QString> & vec);
 
 
 #endif // UTILITY

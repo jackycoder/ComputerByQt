@@ -30,6 +30,8 @@ Widget::Widget(QWidget *parent) :
 
     //connect(ui->operatorbuttonsqrt , SIGNAL(clicked()) , this, SLOT(getOperatorInput()));
 
+    connect(ui->operatorbuttonequal , SIGNAL(clicked()) , this , SLOT(getComputeResult()));
+
 }
 
 Widget::~Widget()
@@ -100,4 +102,14 @@ void Widget::updateSequenceExpression(const QString &exp)
 {
     sequenceExp.clear();
     sequenceExp = exp;
+}
+
+void Widget::getComputeResult()
+{
+    QVector<QString> vec;
+    if(!ui->digitinput->toPlainText().isEmpty())
+        appendSequenceExpression(ui->digitinput->toPlainText());
+    qDebug() << getSequenceExpression();
+    inToPost(getSequenceExpression() , vec);
+    printQVector(vec);
 }
