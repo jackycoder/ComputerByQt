@@ -27,6 +27,7 @@ private slots:
     void getDigitInput();
     void getOperatorInput();
     void deleteDigitInput();
+    void getComputeResult();
 
 private:
     void setReadOnlyForButton();
