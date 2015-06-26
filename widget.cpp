@@ -109,7 +109,7 @@ void Widget::getComputeResult()
     QVector<QString> vec;
     if(!ui->digitinput->toPlainText().isEmpty())
         appendSequenceExpression(ui->digitinput->toPlainText());
-    qDebug() << getSequenceExpression();
+    qDebug() << "irginal expression:" <<getSequenceExpression();
     inToPost(getSequenceExpression() , vec);
     printQVector(vec);
 }

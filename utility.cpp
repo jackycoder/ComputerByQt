@@ -23,6 +23,7 @@ bool inToPost(QString &infixexp , QVector<QString> &postfixexp)
     {
         if(infixexp.at(var)>='0' && infixexp.at(var)<='9'){
             number->append(infixexp.at(var));
+            //qDebug() << *number;
         }else if('(' == infixexp.at(var)) {
             stack.push_back(infixexp.at(var));
         }else if (')' == infixexp.at(var)) {
@@ -44,6 +45,14 @@ bool inToPost(QString &infixexp , QVector<QString> &postfixexp)
             //Invalid input
             return false;
         }
+    }
+
+    if(!number->isEmpty())
+        postfixexp.push_back(*number);
+
+    while (!stack.isEmpty()) {
+        QChar element= stack.pop();
+        postfixexp.push_back(element);
     }
     return true;
  }
@@ -95,10 +104,11 @@ bool isoperator(QChar oper)
 
  void printQVector(QVector<QString> & vec)
  {
-     QVector<QString>::const_iterator it_string = vec.begin();
-     qDebug() << vec.size();
+     QVector<QString>::iterator it_string = vec.begin();
+     qDebug() << QString("postfixexpression size:") << vec.size();
      while(it_string != vec.end()){
          qDebug() << *it_string;
+         it_string++;
      }
 
  }
