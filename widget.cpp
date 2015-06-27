@@ -104,12 +104,25 @@ void Widget::updateSequenceExpression(const QString &exp)
     sequenceExp = exp;
 }
 
+void Widget::initialTextValues()
+{
+    ui->digitinput->clear();
+    ui->expressiontext->clear();
+    sequenceExp.clear();
+}
+
 void Widget::getComputeResult()
 {
     QVector<QString> vec;
     if(!ui->digitinput->toPlainText().isEmpty())
         appendSequenceExpression(ui->digitinput->toPlainText());
-    qDebug() << getSequenceExpression();
+    //qDebug() << "irginal expression:" <<getSequenceExpression();
     inToPost(getSequenceExpression() , vec);
-    printQVector(vec);
+    int result =  computePostfixexpression(vec);
+    qDebug() << result;
+//    ui->digitinput->clear();
+//    ui->expressiontext->clear();
+    initialTextValues();
+    ui->digitinput->appendPlainText(QString::number(result,10));
+
 }

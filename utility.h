@@ -34,6 +34,15 @@ const int DELETE_MODE = 5;
   */
  bool isHigherPriority(const QChar oper1, const QChar oper2);
 
+ /**
+  * @brief computePostfixexpression
+  * @param postfixexpression
+  * @return
+  */
+ int computePostfixexpression(QVector<QString> &postfixexpression);
+
+ int computeBy(int left, int right, const QChar oper);
+
 
  bool isoperator(QChar oper);
 

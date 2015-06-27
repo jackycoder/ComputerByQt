@@ -23,6 +23,7 @@ bool inToPost(QString &infixexp , QVector<QString> &postfixexp)
     {
         if(infixexp.at(var)>='0' && infixexp.at(var)<='9'){
             number->append(infixexp.at(var));
+            //qDebug() << *number;
         }else if('(' == infixexp.at(var)) {
             stack.push_back(infixexp.at(var));
         }else if (')' == infixexp.at(var)) {
@@ -45,6 +46,14 @@ bool inToPost(QString &infixexp , QVector<QString> &postfixexp)
             return false;
         }
     }
+
+    if(!number->isEmpty())
+        postfixexp.push_back(*number);
+
+    while (!stack.isEmpty()) {
+        QChar element= stack.pop();
+        postfixexp.push_back(element);
+    }
     return true;
  }
 
@@ -64,6 +73,50 @@ bool handleOperator(QChar oper, QStack<QChar> & stack , QVector<QString> &postfi
     }
     stack.push_back(oper);
     return true;
+}
+
+int computeBy(int left, int right, const QChar oper)
+{
+    qDebug() << "oper:" << oper;
+      switch(oper.unicode())
+      {
+          case '+':
+            return left+right;
+          case '-':
+            return left-right;
+          case '*':
+            return left*right;
+          case '/':
+            return left/right;
+          case '%':
+            return left%right;
+      }
+      return 0;
+}
+
+
+int computePostfixexpression(QVector<QString> &postfixexpression)
+{
+    QStack<int> stack;
+    QVector<QString>::iterator element=postfixexpression.begin();
+    while(element != postfixexpression.end())
+    {
+        if(((*element).size()==1) && isoperator((*element).at(0)))
+        {
+            int right = stack.pop();//先出来的是右操作数
+            int left = stack.pop();
+            if(stack.isEmpty())
+                return computeBy(left,right,(*element).at(0));
+            else{
+                stack.push(left+right);
+            }
+        }else{
+            bool ok;
+            stack.push((*element).toInt(&ok, 10));
+        }
+        element++;
+    }
+    return -1;
 }
 
 
@@ -95,10 +148,11 @@ bool isoperator(QChar oper)
 
  void printQVector(QVector<QString> & vec)
  {
-     QVector<QString>::const_iterator it_string = vec.begin();
-     qDebug() << vec.size();
+     QVector<QString>::iterator it_string = vec.begin();
+     qDebug() << QString("postfixexpression size:") << vec.size();
      while(it_string != vec.end()){
          qDebug() << *it_string;
+         it_string++;
      }
 
  }

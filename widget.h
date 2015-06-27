@@ -2,7 +2,6 @@
 #define WIDGET_H
 
 #include <QWidget>
-#include <iostream>
 #include "utility.h"
 
 using namespace std;
@@ -34,6 +33,7 @@ private:
     QString& getSequenceExpression() ;
     void appendSequenceExpression(const QString &exp);
     void updateSequenceExpression(const QString &exp);
+    void initialTextValues();
 
 private:
     Ui::Widget *ui;
